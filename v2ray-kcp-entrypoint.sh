@@ -20,7 +20,7 @@ fi
 
 if [[ $host = "\$host" ]]; then
     host=`dig +short myip.opendns.com @resolver1.opendns.com`
-    echo "current host: $host"
+    echo "current host: $port"
 fi
 
 if [[ $host_port = "\$host_port" ]]; then
