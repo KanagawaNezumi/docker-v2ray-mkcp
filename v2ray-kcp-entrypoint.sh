@@ -23,6 +23,10 @@ if [[ $host = "\$host" ]]; then
     echo "current host: $host"
 fi
 
+if [[ $host_port = "\$host_port" ]]; then
+    host_port=$host
+fi
+
 echo "set uid: ${uid}"
 
 sed -i -e "s/\$port/${port}/g" -e "s/\$uid/${uid}/g" -e "s/\$uplink_capacity/${uplink_capacity}/g" -e "s/\$downlink_capacity/${downlink_capacity}/g" -e "s/\$header_type/${header_type}/g" /root/v2ray-kcp-config.json
