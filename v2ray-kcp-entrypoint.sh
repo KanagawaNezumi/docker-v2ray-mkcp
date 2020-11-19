@@ -24,7 +24,7 @@ if [[ $host = "\$host" ]]; then
 fi
 
 if [[ $host_port = "\$host_port" ]]; then
-    host_port=$host
+    host_port=$port
 fi
 
 echo "set uid: ${uid}"
