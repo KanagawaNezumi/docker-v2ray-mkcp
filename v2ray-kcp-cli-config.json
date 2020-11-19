@@ -1,0 +1,56 @@
+{
+    "inbounds": [{
+        "port": $cli_port,
+        "listen": "127.0.0.1",
+        "protocol": "socks",
+        "settings": {
+            "udp": true
+        }
+    }],
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [{
+                    "address": "$host", 
+                    "port": $host_port,    
+                    "users": [{ "id": "$uid" }]
+                }]
+            },
+            "streamSettings": {
+                "network": "mkcp", 
+                "kcpSettings": {
+                    "uplinkCapacity": 100,
+                    "downlinkCapacity": 100,
+                    "congestion": true,
+                    "header": {
+                        "type": "$header_type"
+                    }
+                }
+            }
+        },
+        {
+            "protocol": "freedom",
+            "tag": "direct",
+            "settings": {}
+        }
+    ],
+    "routing": {
+        "domainStrategy": "IPOnDemand",
+        "rules":[
+            {
+                "type": "field",
+                "outboundTag": "direct",
+                "domain":["geosite:cn"]
+            },
+            {
+                "type": "field",
+                "outboundTag": "direct",
+                "ip": [
+                    "geoip:cn",
+                    "geoip:private"
+                ]
+            }
+        ]
+    }
+}
