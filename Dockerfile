@@ -11,7 +11,7 @@ COPY v2ray-kcp-entrypoint.sh /root/v2ray-kcp-entrypoint.sh
 
 ENV host=\$host
 ENV port=6324
-ENV host_port=${port}
+ENV host_port=\$host_port
 ENV uid=none
 ENV uplink_capacity=100
 ENV downlink_capacity=100
