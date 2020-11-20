@@ -1,28 +1,28 @@
 FROM alpine:latest
 LABEL maintainer "V2Fly Community <dev@v2fly.org>"
 
-WORKDIR /root
+WORKDIR /v2ray-mkcp
 ARG TARGETPLATFORM
 VOLUME /etc/v2ray
-COPY v2ray.sh /root/v2ray.sh
-COPY v2ray-kcp-config.json /root/v2ray-kcp-config.json
-COPY v2ray-kcp-cli-config.json /root/v2ray-kcp-cli-config.json
-COPY v2ray-kcp-entrypoint.sh /root/v2ray-kcp-entrypoint.sh
+COPY . .
 
-ENV host=\$host
-ENV port=6324
-ENV host_port=\$host_port
-ENV uid=none
-ENV uplink_capacity=100
-ENV downlink_capacity=100
-ENV header_type=none
-ENV cli_port=1080
+ENV HOST=\$host \
+	PORT=6324 \
+	HOST_PORT=\$host_port \
+	UID=none \
+	UPLINK_CAPACITY=100 \
+	DOWNLINK_CAPACITY=100 \
+	HEADER_TYPE=none \
+	CLI_PORT=1080
 
 RUN set -ex \
 	&& apk add --no-cache tzdata openssl ca-certificates util-linux bind-tools \
 	&& mkdir -p /etc/v2ray /usr/local/share/v2ray /var/log/v2ray \
-	&& chmod +x /root/v2ray.sh \
-	&& chmod +x /root/v2ray-kcp-entrypoint.sh \
-	&& /root/v2ray.sh 
+	&& chmod +x v2ray.sh \
+	&& ./v2ray.sh
 
-CMD /root/v2ray-kcp-entrypoint.sh ${host} ${port} ${host_port} ${uid} ${uplink_capacity} ${downlink_capacity} ${header_type} ${cli_port}
+COPY . .
+
+RUN chmod +x v2ray-kcp-entrypoint.sh
+
+CMD ./v2ray-kcp-entrypoint.sh ${HOST} ${PORT} ${HOST_PORT} ${UID} ${UPLINK_CAPACITY} ${DOWNLINK_CAPACITY} ${HEADER_TYPE} ${CLI_PORT}
