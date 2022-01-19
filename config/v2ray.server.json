@@ -1,0 +1,44 @@
+{
+    "inbounds": [{
+        "port": $port,
+        "protocol": "vmess",
+        "settings": {
+            "clients": [
+                {
+                    "id": "$uid"
+                }
+            ]
+        },
+        "streamSettings": {
+            "network": "mkcp",
+            "kcpSettings": {
+                "uplinkCapacity": $uplink_capacity,
+                "downlinkCapacity": $downlink_capacity,
+                "congestion": true,
+                "header": {
+                    "type": "$header_type"
+                }
+            }
+        }
+    }],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "settings": {}
+        },
+        {
+            "protocol": "blackhole",
+            "settings": {},
+            "tag": "blocked"
+        }
+    ],
+    "routing" : {
+        "rules": [
+            {
+                "type": "field",
+                "ip": ["geoip:private"],
+                "outboundTag": "blocked"
+            }
+        ]
+    }
+}
